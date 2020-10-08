@@ -1,0 +1,99 @@
+//assigning the components to the arduino pins
+int state = 0; 
+int inital = 0;
+int buttonPush = 0;
+int redLED = 2;
+int yellowLED = 3;
+int greenLED = 4;
+int button = 9;
+int old;
+int i = 1;
+int j = 0;
+int buzzer = 12;
+
+void setup() {  
+ //telling the Arduino output the code to make the component work 
+pinMode(button, INPUT);
+pinMode(redLED, OUTPUT);
+pinMode(greenLED, OUTPUT);
+pinMode(yellowLED, OUTPUT);
+pinMode(buzzer,OUTPUT);
+
+//if nothing is done LED stay off
+digitalWrite(redLED, LOW);
+digitalWrite(greenLED, LOW);
+digitalWrite(yellowLED, LOW);
+}
+void loop() {
+//red LED will blink when the button is not push 
+//when it is push, it will move on to the switch case loop
+while (i == 1){
+  delay (2000);
+  digitalWrite(redLED, HIGH);
+  delay (2500);
+  digitalWrite(redLED, LOW);
+  buttonPush = digitalRead(button);
+  if (buttonPush == 1)
+  {
+    i++;
+    state = 1;
+  }
+}
+//switch case loop allowing LED to change from red to green to yellow.. like a traffic lights
+//before each of the three light switches, the buzzer beep.
+ switch (state){
+  case 1:
+    
+    digitalWrite(redLED, HIGH);
+    digitalWrite(greenLED, LOW);
+    digitalWrite(yellowLED, LOW);
+    digitalWrite(buzzer, LOW);
+    delay (12000);
+    state = 2;
+    break;
+    
+  case 2:
+    
+    digitalWrite(redLED, HIGH);
+    digitalWrite(greenLED, LOW);
+    digitalWrite(yellowLED, LOW);
+    digitalWrite(buzzer, HIGH);
+    delay(3000);
+    state = 3;
+    break;
+    
+  case 3: 
+    
+    digitalWrite(buzzer, LOW);
+    digitalWrite(redLED, LOW);
+    digitalWrite(greenLED, HIGH);
+    digitalWrite(yellowLED, LOW);
+    delay (12000);
+    state = 4;
+    break;
+    
+  case 4: 
+    
+    digitalWrite(buzzer, HIGH);
+    digitalWrite(redLED, LOW);
+    digitalWrite(greenLED, HIGH);
+    digitalWrite(yellowLED, LOW);
+    delay (3000);
+    state = 5;
+    break;
+  
+  case 5:
+    
+    digitalWrite(buzzer, HIGH);
+    digitalWrite(redLED, LOW);
+    digitalWrite(greenLED, LOW);
+    digitalWrite(yellowLED, HIGH);
+    delay (3000);
+    state = 1;
+    break;
+    
+  default:
+    state = 1;
+    break;
+ }
+}
